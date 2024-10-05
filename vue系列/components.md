@@ -13,7 +13,18 @@ vue.extend 返回一个子类 ，而且会在子类上记录自己的选项
    当创建子类的实例时，会调用父类的 \_init 方法。这个方法是 Vue 实例的初始化逻辑，包括设置数据观测、生命周期钩子等
 4. 组件的初始化就是 new 这个组件的构造函数并且调用$mount 方法
 5. 创建虚拟节点 根据标签晒出组件对应，生成组件的虚拟节点 componentOptions 里面包含 Ctor,就是组件的构造函数
-
+const vnode = {
+  tag: 'div',
+  children: [
+    { tag: 'h1', text: '父组件标题' },
+    {
+      tag: 'ChildComponent', // 子组件的虚拟节点
+      componentOptions: {
+        Ctor: MyComponentConstructor, // 组件的构造函数
+      }
+    }
+  ]
+}
 6. 组件船舰真实的 dom（先渲染的是父组件）遇到子组件的虚拟节点时，调用子组件的 init 方法，让组件初始化并挂载，渲染成真实的 dom 插入父组件中，
    （组件的$mount无参数会把渲染后的dom放到 vnode.componentInstance 中）这样渲染时就 获取这个对象的vnode.componentInstance.$el 属性来渲染
    `
