@@ -76,14 +76,12 @@
 }
 
 3. 作用域插槽 （渲染插槽的作用域在子组件中）
+
 <my-component v-slot="{ msg }">
     <div>{{ msg }}</div>
 </my-component>
 
 - 作用域插糟渲染的时候不会作为children，将作用域插槽做成了一个属性scopedslots
-- 制作一个映射关系 $scopedslots = fdefault:fn:function({msg}){return c('div',{},[ v( _s(msg))])}}}
-- 稍后渲染组件的模板的时候 会通过name找到对应的函数 将数据传入到函数中此时才渲染虚拟节点， 用这个虚拟节点替换 t('default)
-
 {
   tag: 'my',
   componentOptions: {
@@ -103,3 +101,16 @@
     children: [] // children 为空，因为插槽内容是通过 scopedSlots 渲染的
   }
 }
+- 制作一个映射关系 
+    $scopedSlots = {
+        default: function ({ msg }) {
+            return c('div', {}, [v(_s(msg))]);
+        }
+    }
+    在这个映射中，default 是插槽的名称，function ({ msg }) 是一个函数，接收一个包含 msg 的对象并返回一个虚拟节点（Virtual Node）
+- 当渲染组件的模板时，Vue 会根据插槽的名称找到对应的渲染函数，并将数据传递给这个函数。生成的虚拟节点会替换插槽的默认内容
+<div>
+    <slot :msg="msg"></slot>
+</div>
+
+
