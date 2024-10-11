@@ -1,6 +1,6 @@
 ### Vue.set 是如何实现的
 
-Vue.set 方法是 vue 中的一个补丁方法（正常我们给对象添加属性是不会触发更新的，数组无法监听索引和长度）
+**Vue.set 方法是 vue 中的一个补丁方法（正常我们给对象添加属性是不会触发更新的，数组无法监听索引和长度）**
 
 #### 实现原理
 
@@ -11,6 +11,7 @@ Vue.set 方法是 vue 中的一个补丁方法（正常我们给对象添加属�
     3.调用 dep.notify() 手动触发依赖更新，确保视图能够反映新属性的变化
 
 // 实现部分伪代码
+```js
 Vue.set = function (target, key, value) {
   // 检查目标对象是否响应式
   if (target.__ob__) {
@@ -23,3 +24,4 @@ Vue.set = function (target, key, value) {
     target[key] = value;
   }
 };
+```
