@@ -1,12 +1,12 @@
-### computed 和 watch 区别
+# computed 和 watch 区别
 
-#### 相同点：
+## 相同点：
 
 底层都会创建一个 watcher
 
 - Watcher 对象：在响应式系统中，Vue 为每一个依赖于响应式数据的属性（包括 DOM 绑定、计算属性等）创建一个 Watcher 对象。Watcher 负责订阅数据的变化，并在数据改变时通知相关的更新操作
 
-#### 用法区别：
+## 用法区别：
 
 computed 定义的属性可以在模板中使用，watch 不能在视图中使用
 
