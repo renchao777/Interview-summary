@@ -2,18 +2,20 @@
 
 **迭代器顾名思义就是从一个集合中把元素一个个取出来，其实 es6 的迭代器是 es6 出的一个迭代器规范，在 ES6 引入迭代器之前，我们可以使用 ES5 的方法实现一个迭代器。按照这个规范，我们可以创建一个函数，并在其中实现一个 next 方法，该方法返回一个包含当前值和迭代是否完成状态的对象,value（当前迭代的值）和 done（一个布尔值，指示迭代是否完成）**
 
+```js
 function createIterator(array) {
-var index = 0; // 迭代器的索引
-return {
-next: function() {
-if (index < array.length) {
-return { value: array[index++], done: false };
-} else {
-return { done: true };
+  var index = 0; // 迭代器的索引
+  return {
+    next: function () {
+      if (index < array.length) {
+        return { value: array[index++], done: false };
+      } else {
+        return { done: true };
+      }
+    },
+  };
 }
-}
-};
-}
+```
 
 // 创建一个数组的迭代器
 var iterator = createIterator([1, 2, 3]);
