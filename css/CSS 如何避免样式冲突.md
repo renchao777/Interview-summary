@@ -2,7 +2,14 @@
 
 1. css Scoped
 
-scoped css 会对当前组件（scope）下所有的元素生成唯一的属性或类名，对所有 CSS 规则将携带唯一属性实现作用域的命名保护
+在 Vue 单文件组件中，通过在 <style> 标签上添加 scoped 属性，Vue 会为每个 CSS 规则生成唯一的属性选择器，确保样式只作用于当前组件内的元素
+
+```cs
+.component[data-v-123456] {
+  color: red;
+}
+
+```
 
 2. CSS Module
 
@@ -12,7 +19,7 @@ module css 会对类名进行 hash 化
 
 在类名前添加一个命名空间，确保类名的唯一性
 
-```js
+```cs
 .myApp__component__button {
   /* 样式 */
 }
