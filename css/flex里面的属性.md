@@ -117,3 +117,7 @@ flex:1 和 flex:auto 的区别，可以归结于 flex-basis:0 和 flex-basis:aut
 当设置为 0 时（「绝对弹性元素」），此时相当于告诉 flex-grow 和 flex-shrink 在伸缩的时候不需要考虑我的尺寸
 
 当设置为 auto 时（「相对弹性元素」），此时则需要在伸缩时将元素尺寸纳入考虑
+
+### Flex 如何实现三栏布局
+
+左右设置 flex: 0 1 200px;中间设置 flex：1 父元素设置 flex 布局
