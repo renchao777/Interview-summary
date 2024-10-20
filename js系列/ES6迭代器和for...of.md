@@ -17,22 +17,12 @@ function createIterator(array) {
 }
 ```
 
-// 创建一个数组的迭代器
-var iterator = createIterator([1, 2, 3]);
-
-console.log(iterator.next()); // { value: 1, done: false }
-console.log(iterator.next()); // { value: 2, done: false }
-console.log(iterator.next()); // { value: 3, done: false }
-console.log(iterator.next()); // { done: true }
-
 - 其实很多的原生 JavaScript 中的字符串、数组、Set、Map 以及 DOM 元素的集合（如 NodeList、HTMLCollection）都实现了 Symbol.iterator 接口，因此它们可以用于构建迭代器，我们可以在控制台输出一个原生对象，比如 array 他的原型属性里面就有一个 Symbol.iterator 迭代器方法，我们可以用这个方法来构造迭代器，从而逐步访问数组中的元素，当然我们可以利用 es6 提供了一个方法叫生成器，generator 来构建一个迭代器 就是 funcutin \* 一个普通的函数，里面通过 yield 来暂停某一行代码，那么会得到一个迭代器，我们可以用 next 来执行这个迭代器
 
 ```js
 const array = [10, 20, 30];
-
 // 使用 Symbol.iterator 创建迭代器
 const iterator = array[Symbol.iterator]();
-
 console.log(iterator.next()); // { value: 10, done: false }
 console.log(iterator.next()); // { value: 20, done: false }
 console.log(iterator.next()); // { value: 30, done: false }
@@ -42,13 +32,11 @@ console.log(iterator.next()); // { value: undefined, done: true }
 // generator 生成器函数实现迭代器
 
 ```js
-
 function\* generator() {
-yield 1;
-yield 2;
-yield 3;
+  yield 1;
+  yield 2;
+  yield 3;
 }
-
 const gen = generator();
 console.log(gen.next()); // { value: 1, done: false }
 console.log(gen.next()); // { value: 2, done: false }
@@ -61,7 +49,13 @@ console.log(gen.next()); // { value: undefined, done: true }
 
 # for of
 
+## 定义
+
 **是一种控制流语句，专门用于遍历可迭代对象（iterable objects）**
+
+## 功能
+
+**for...of 会自动调用对象的 Symbol.iterator 方法并获取一个迭代器。它会不断调用迭代器的 next() 方法，直到 done 为 true。这样，用户无需显式处理迭代器的逻辑**
 
 1. 是一种控制流语句，用于简化遍历操作
 
