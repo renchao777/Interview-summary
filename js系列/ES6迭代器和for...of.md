@@ -45,7 +45,18 @@ console.log(gen.next()); // { value: undefined, done: true }
 
 ```
 
-其实我们平时用到的，async/await，其实它里面就用到了一些迭代器的实现， 提供了一种让异步代码看起来像同步代码的语法。虽然它背后依赖的是 Promise，但它的行为与迭代器有一些相似之处。await 会暂停函数的执行，直到 Promise 完成后才继续执行，类似于迭代器调用 next 方法
+### generator
+
+因此 ES6 推出了 generator，用于更方便的创建 iterator。也就是说，Generator 就是一个返回值为 iterator 对象的函数。
+
+Generator 并不是为异步而设计出来的，它还有其他功能（对象迭代、控制输出、部署 Interator 接口等）
+
+---
+
+其实我们平时用到的，async/await，其实它里面就用到了一些迭代器的实现， 提供了一种让异步代码看起来像同步代码的语法。
+虽然它背后依赖的是 Promise，但它的行为与迭代器有一些相似之处。await 会暂停函数的执行，直到 Promise 完成后才继续执行，类似于迭代器调用 next 方法
+
+async 实质上是 Generator 的语法糖，相当于会自动执行的 Generator 函数
 
 # for of
 
