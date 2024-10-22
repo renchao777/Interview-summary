@@ -36,7 +36,7 @@ keep-alive 仅影响组件的生命周期管理和缓存行为
 ## 工作原理
 
 keep-alive 是 Vue 提供的一个内置组件，用于缓存动态组件实例。
-它采用了 LRU（最近最少使用）算法来管理缓存的组件，当组件切换时，会缓存已加载的组件实例，而不是销毁它们，从而提高性能
+**它采用了 LRU（最近最少使用）算法来管理缓存的组件，当组件切换时，会缓存已加载的组件实例，而不是销毁它们，从而提高性能**
 
 1. 初次渲染
    keep-alive 实例创建：在使用 keep-alive 包裹组件时，Vue 会首先创建一个 keep-alive 实例。这个实例负责管理其内部的缓存机制。
@@ -63,93 +63,86 @@ patch 函数：接下来，Vue 使用 patch 函数对比新旧 VNode，通过 di
 ### keep-alive 源码
 
 ```js
-import { isFunction, isObject } from 'shared/util'
-import { defineComponent } from 'core/vdom/create-element'
+import { isFunction, isObject } from "shared/util";
+import { defineComponent } from "core/vdom/create-element";
 
 // KeepAlive component definition
 export default defineComponent({
-  name: 'keep-alive', // 组件名称
-  abstract: true, // 表示这是一个抽象组件，不会在 DOM 中渲染出一个实际的节点
+  name: "keep-alive",
+  abstract: true,
 
   props: {
-    include: { // 仅缓存包含在该列表中的组件
+    include: {
       type: [String, Array],
-      default: null
+      default: null,
     },
-    exclude: { // 不缓存包含在该列表中的组件
+    exclude: {
       type: [String, Array],
-      default: null
+      default: null,
     },
-    max: { // 最大缓存数
+    max: {
       type: [String, Number],
-      default: null
-    }
+      default: null,
+    },
   },
 
   data() {
     return {
-      cache: Object.create(null), // 存储已缓存的组件实例
-      keys: [] // 记录当前活跃的组件的 key
-    }
+      cache: new Map(), // 使用 Map 存储已缓存的组件实例
+    };
   },
 
   created() {
-    // 组件创建时初始化 cache 和 keys
-    this.cache = Object.create(null)
-    this.keys = []
+    this.cache = new Map(); // 初始化 cache 为一个空的 Map
   },
 
   deactivated() {
-    // 当组件被切换到其他组件时调用
-    const key = this.getKey(this.$options) // 获取当前组件的 key
-    const cached = this.cache[key] // 获取缓存的组件
+    const key = this.getKey(this.$options);
+    const cached = this.cache.get(key);
     if (cached) {
-      cached.deactivated() // 调用缓存组件的 deactivated 钩子
+      cached.deactivated();
     }
   },
 
   activated() {
-    // 当恢复之前的组件时调用
-    const key = this.getKey(this.$options) // 获取当前组件的 key
-    const cached = this.cache[key] // 获取缓存的组件
+    const key = this.getKey(this.$options);
+    const cached = this.cache.get(key);
     if (cached) {
-      cached.activated() // 调用缓存组件的 activated 钩子
+      cached.activated();
     }
   },
 
   render() {
-    const vnode = this.$slots.default[0] // 获取默认插槽中的第一个 VNode
-    const key = this.getKey(vnode.componentOptions) // 获取组件的 key
+    const vnode = this.$slots.default[0];
+    const key = this.getKey(vnode.componentOptions);
 
-    // 如果该组件已经在缓存中，则直接返回缓存的 VNode
-    if (key in this.cache) {
-      return this.cache[key].vnode
+    if (this.cache.has(key)) {
+      return this.cache.get(key).vnode;
     }
 
-    // 否则，缓存该组件实例
-    this.cacheComponent(key, vnode.componentInstance)
-    return vnode // 返回当前的 VNode
+    this.cacheComponent(key, vnode.componentInstance);
+    return vnode;
   },
 
   methods: {
     getKey(child) {
-      // 生成组件的唯一 key，若没有 key 则使用标签名
-      return child.key == null ? child.tag : child.key
+      return child.key == null ? child.tag : child.key;
     },
 
     cacheComponent(key, component) {
-      // 将组件实例缓存到 cache 中
-      if (!(key in this.cache)) {
-        this.keys.push(key) // 如果不在缓存中，添加到 keys 数组
+      if (!this.cache.has(key)) {
+        this.cache.set(key, component);
       }
-      this.cache[key] = component // 将组件实例缓存
 
-      // 限制缓存的最大数量
-      if (this.max && this.keys.length > this.max) {
-        this.pruneCache() // 移除最久未使用的缓存
+      if (this.max && this.cache.size > this.max) {
+        this.pruneCache();
       }
-    }
-  }
-}
+    },
 
+    pruneCache() {
+      const firstKey = this.cache.keys().next().value;
+      this.cache.delete(firstKey);
+    },
+  },
+});
 ```
