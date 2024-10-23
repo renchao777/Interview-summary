@@ -24,7 +24,9 @@ const vnode = {
 5. 组件的初始化就是 new 这个组件的构造函数并且调用$mount 方法
 
 6. 组件创建真实 dom 时 （先渲染的是父组件） 遇到是组件的虚拟节点时，去调用 init 方法，让组件初始化并挂载
-   （组件的$mount无参数会把渲染后的dom放到 vnode.componentInstance 中）这样渲染时就 获取这个对象的vnode.componentInstance.$el 属性来渲染
+   （ccomponentInstance 是指组件的实例。当你调用 $mount() 方法无参数时，Vue 会创建该组件的实例，
+   并将渲染后的 DOM 元素存储在 componentInstance.$el 中。
+   为了进行渲染，你可以通过 vnode.componentInstance.$el 来访问这个 DOM 元素）
 
 ```js
 {
