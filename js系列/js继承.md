@@ -128,25 +128,27 @@ child.sayHi(); // 'Hi from child'
 避免两次调用父类构造函数：通过寄生的方式组合构造函数继承和原型链继承，效率更高。
 这是现代 JavaScript 中最常用、性能最佳的继承方式，避免了组合继承中的性能浪费问题。
 
+```js
 function Parent(name) {
-this.name = name;
-this.colors = ['red', 'blue'];
+  this.name = name;
+  this.colors = ["red", "blue"];
 }
 
-Parent.prototype.sayName = function() {
-console.log(this.name);
+Parent.prototype.sayName = function () {
+  console.log(this.name);
 };
 
 function Child(name, age) {
-Parent.call(this, name); // 借用构造函数
-this.age = age;
+  Parent.call(this, name); // 借用构造函数
+  this.age = age;
 }
 
 Child.prototype = Object.create(Parent.prototype); // 原型链继承父类原型
 Child.prototype.constructor = Child;
 
-const child1 = new Child('child1', 18);
+const child1 = new Child("child1", 18);
 child1.sayName(); // 'child1'
+```
 
 7. ES6 中的 extends
 
