@@ -152,26 +152,29 @@ child1.sayName(); // 'child1'
 
 7. ES6 中的 extends
 
+```js
 class Person {
-constructor(name) {
-this.name = name
-}
-// 原型方法
-// 即 Person.prototype.getName = function() { }
-// 下面可以简写为 getName() {...}
-getName = function () {
-console.log('Person:', this.name)
-}
+  constructor(name) {
+    this.name = name;
+    this.colors = ["red", "blue"];
+  }
+  // 原型方法
+  // 即 Person.prototype.getName = function() { }
+  // 下面可以简写为 getName() {...}
+  getName = function () {
+    console.log("Person:", this.name);
+  };
 }
 class Gamer extends Person {
-constructor(name, age) {
-// 子类中存在构造函数，则需要在使用“this”之前首先调用 super()。
-super(name)
-this.age = age
+  constructor(name, age) {
+    // 子类中存在构造函数，则需要在使用“this”之前首先调用 super()。
+    super(name);
+    this.age = age;
+  }
 }
-}
-const asuna = new Gamer('Asuna', 20)
-asuna.getName() // 成功访问到父类的方法
+const asuna = new Gamer("Asuna", 20);
+asuna.getName(); // 成功访问到父类的方法
+```
 
 我们会发现 extends 实际采用的也是寄生组合继承方式，因此也证明了这种方式是较优的解决继承的方式
 

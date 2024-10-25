@@ -7,7 +7,8 @@
       <div>hello</div>
    </my-component>
 
-- 在解析组件时，Vue 会将组件的子节点（children）放入组件选项（componentOptions）上，作为虚拟节点的一个属性。
+- 在解析组件时，Vue 会将父组件的子节点（children）放入子组件的 componentOptions 中，作为虚拟节点的一部分。
+  这些子节点在解析时会被表示为虚拟节点，而不是实际的 DOM 节点，结构如下
 
 ```js
 {
@@ -24,10 +25,11 @@
 
 ```
 
-- 当 Vue 解析这个组件时，插槽内容会被放入组件的 componentOptions.children 中。
-  这意味着父组件的插槽内容（例如 <div>hello</div>）实际上是存储在父组件的上下文中
-  当子组件 MyComponent 被创建时，Vue 会将父组件中定义的插槽内容存储在 $slots 对象中。子组件可以通过 $slots.default 来访问这些插槽内容
-- 渲染插槽内容： Vue 会将 $slots.default 中的虚拟节点转换为实际的 DOM 元素，并插入到子组件模板中 <slot> 标签的位置
+- 插槽内容的存储
+  当子组件 MyComponent 被创建时，父组件的插槽内容会被存储在子组件的 $slots 对象中。子组件可以通过 $slots.default 来访问这些内容。
+
+- 渲染插槽内容
+  在渲染过程中，Vue 会将 $slots.default 中的虚拟节点转换为实际的 DOM 元素，并将其插入到子组件模板中 <slot> 标签的位置
 
 <div>
     <slot :msg="msg"></slot>
