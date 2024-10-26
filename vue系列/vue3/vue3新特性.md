@@ -1,18 +1,36 @@
-# Vue 3 相较于 Vue 2 引入了多个新特性和改进
+# Vue 3 与 Vue2 的区别
 
-1. Composition API
-   引入 Composition API，用于代替 Options API 进行组件逻辑的组织。通过 setup 函数，可以更灵活地组合和复用逻辑，增强代码的可维护性。
-   提供的功能包括 reactive、ref、computed、watch、watchEffect、provide/inject 等。
-2. 响应式系统的改进
-   Vue 3 使用 Proxy 代替 Vue 2 的 Object.defineProperty 实现响应式系统，从而能够更好地支持对数组和对象属性的追踪。
-   解决了 Vue 2 无法检测到属性添加或删除的局限性。
-3. 更快的性能
-   渲染性能提升，编译器针对静态内容和动态内容进行了优化。
-   缩小了打包体积，并提升了组件更新的速度。
-   支持片段（Fragment），允许组件返回多个根节点，从而避免不必要的 DOM 包装。
-4. Teleport
-   Teleport 组件可以将模板的一部分渲染到 DOM 中的任何位置，不受组件树的层级限制，适用于模态框、弹窗等场景。
-5. 更好的 TypeScript 支持
-   Vue 3 的 API 设计更贴近 TypeScript，提供了更好的类型推断和类型检查支持，提升了开发体验。
-6. 树摇优化（Tree-Shaking）
-   通过更细粒度的模块拆分，实现更好的树摇优化，减少打包后的文件体积
+- 从底层机制上来讲
+  vue3 重写了 dom-diff 算法，只是比较动态节点，跳过静态节点（内容不会变化的标签），大大提高了视图编译的速度
+  利用了 webpack 中的 tree shaking 机制，只打包用到的模块（按需打包），降低了打包后的文件体积
+  响应式操作原理，放弃了 vue2 中的 Object.defineproperty,采用了 es6 的 Proxy 进行数据劫持
+
+  - 更加方便：不用区分数组对象，都基于 Proxy 做处理即可
+  - 性能更高：无需迭代每一项分别劫持，直接对整个对象做劫持
+  - 功能更强：除了传统的 get/set 劫持
+    get：拦截对对象属性的访问。
+    set：拦截对对象属性的赋值。
+    deleteProperty：拦截属性的删除操作。
+    has：拦截 in 操作符的调用，检查属性是否存在。
+    defineProperty：拦截对属性的定义。
+    ownKeys：拦截获取对象所有键的操作，如 Object.keys()
+
+- vue3 还具备新特性
+
+  - 支持 teleport 传送门，组件可以将模板的一部分渲染到 DOM 中的任何位置
+  - 支持异步组件 suspense 异步组件(用于处理异步组件的加载状态，它允许你在异步组件加载过程中显示一个占位内容（如 loading 状态），并在组件加载完成后再渲染实际内容)
+  - 更好的支持 ts
+
+- 从语法上来讲
+  vue3 完全兼容 vue2 的语法，只不过不在具备 vue 这个类，[每个组件不再是 vue 的子类，组件的 this 不再是 vue 的实例]
+  把之前 vue.Prototype 上的属性方法，作为 this 私有的属性方法
+  vue3 也提供了几乎完全不同于 vue2 的语法[推荐]
+  - 基于 composition API（聚合式 API） 替代 options API（配置项 API） 所有代码都写在<script setup>脚本中
+  - 全面采用函数式编程，需要实现什么样的效果都从 vue 中解构出来 例如：
+    ref、reactive、computed、watch、watchEffect、provide/inject
+  - 重新定义钩子函数: onBeforeMount/onMount/onBeforeUpdate/onUpdate/onBeforeUnmount/onUnmount
+  - 自定义指令内部的钩子函数也改为和周期函数相匹配的名字
+
+reactive 是基于 Proxy 做的数据劫持
+
+ref 是基于 Object.defineproperty 做的数据劫持
