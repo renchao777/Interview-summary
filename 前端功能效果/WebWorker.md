@@ -82,3 +82,42 @@ export default {
     <el-table-column prop="processedField" label="Processed Field"></el-table-column>
   </el-table>
 </template>`
+
+## 优化长列表
+
+1. 使用 Web Worker 处理数据：在 Web Worker 中进行数据计算，避免阻塞主线程
+
+2. 使用虚拟滚动：只渲染可见的列表项，提升渲染性能
+
+vue-virtual-scroll-list
+
+- 计算视口高度
+  const viewportHeight = this.$refs.viewport.offsetHeight;
+
+- 监听滚动事件
+
+- 检测滚动到底部
+
+```js
+onScroll() {
+  const { scrollTop, scrollHeight, clientHeight } = this.$refs.viewport;
+
+// 检测是否滚动到达底部
+  if (scrollTop + clientHeight >= scrollHeight - threshold) {
+    this.loadMore(); // 调用加载更多数据的函数
+  }
+}
+
+```
+
+- 加载更多数据
+
+```js
+loadMore() {
+  // 假设你有一个方法从服务器获取数据
+  fetchData().then(newData => {
+    this.items.push(...newData); // 将新数据添加到现有项中
+  });
+}
+
+```
