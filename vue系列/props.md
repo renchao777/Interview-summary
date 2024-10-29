@@ -74,5 +74,6 @@ object.defineProperty(childComponentInstance, "message", {
 
 ### 如果强行修改呢 props 中的值呢
 
-直接修改 props 的值不会触发 Vue 的响应式更新，因为 Vue 的响应式系统只监控在初始化时定义的属性。
-始终遵循单向数据流和 Vue 的设计原则会使你的应用更加健壮和易于维护
+1. 子组件直接修改 props 会导致父组件和子组件的数据不一致
+
+2. 即使你修改了 props 的值，父组件中的视图可能不会自动更新，因为 Vue 的响应式系统未检测到这些变化
