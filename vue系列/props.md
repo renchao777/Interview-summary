@@ -1,5 +1,7 @@
 # props
 
+**属性的原理是将解析后的 props 验证后定义在组件实例的 vm.\_props 对象上，这些属性通过 defineReactive 方法实现响应式。在组件渲染过程中，模板可以直接访问这些 props 的值，而这些属性会被代理到 vm 上，确保当父组件的数据变化时，子组件能够自动更新**
+
 1. 初始化阶段：当一个组件被创建时，会通过虚拟节点的 componentOptions 中的 propsData 传入属性值
 
 ```js
@@ -77,3 +79,16 @@ object.defineProperty(childComponentInstance, "message", {
 1. 子组件直接修改 props 会导致父组件和子组件的数据不一致
 
 2. 即使你修改了 props 的值，父组件中的视图可能不会自动更新，因为 Vue 的响应式系统未检测到这些变化
+
+```js
+Object.defineProperty(vm, key, {
+  get: function () {
+    return this.$options.propsData[key];
+  },
+  set: function (value) {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(`Do not mutate prop directly: ${key}`);
+    }
+  },
+});
+```
