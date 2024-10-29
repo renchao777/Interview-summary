@@ -26,6 +26,27 @@
 
 1. 数据变更后：当组件的响应式数据发生变化时，Vue 会在下一个 DOM 更新循环中异步更新视图。这时，如果你需要在视图更新后执行某些操作，可以使用 $nextTick
 
-2. 事件处理：在事件处理函数中，如果你改变了数据并想在 DOM 更新后访问某些 DOM 元素，可以使用 $nextTick 来确保 DOM 已更新
+2. 生命周期钩子：在某些生命周期钩子（如 mounted，updated）中，可能需要在组件挂载到 DOM 后执行特定逻辑，这时可以调用 $nextTick
 
-3. 生命周期钩子：在某些生命周期钩子（如 mounted）中，可能需要在组件挂载到 DOM 后执行特定逻辑，这时可以调用 $nextTick
+3. 计算属性：计算属性的更新也会使用 $nextTick 来确保在依赖变化后的 DOM 更新完成后再执行计算结果的使用
+
+4. vue3 异步组件：在异步组件的加载过程中，Vue 会使用 $nextTick 确保在组件完成加载后，相关的 DOM 更新被应用
+
+```js
+<template>
+  <AsyncComponent />
+</template>;
+import { defineAsyncComponent } from "vue";
+const AsyncComponent = defineAsyncComponent(() => import("./MyComponent.vue"));
+function loadComponent() {
+  // 触发异步加载
+  const componentPromise = import("./MyComponent.vue");
+
+  componentPromise.then((component) => {
+    // 组件加载完成后
+    this.$nextTick(() => {
+      this.currentComponent = component; // 更新当前组件
+    });
+  });
+}
+```

@@ -53,3 +53,15 @@ xxx:{
   数据变化：当依赖的响应式数据变化时，计算属性的 Watcher 被标记为“脏”，普通渲染 Watcher 被触发
   异步渲染：在异步渲染过程中，如果在组件中取值计算属性，它会被重新计算并更新缓存值
   视图更新：这时，Vue 会根据计算属性的新值更新 DOM，确保视图反映最新状态
+
+```js
+function notify() {
+  if (this.dirty) {
+    this.dirty = false; // 重置脏状态
+    // 在下一个事件循环中重新计算
+    this.vm.$nextTick(() => {
+      this.value = this.get(); // 重新计算值
+    });
+  }
+}
+```
