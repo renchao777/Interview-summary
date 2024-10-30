@@ -4,29 +4,29 @@
 
 ```js
 function createIterator(array) {
-  var index = 0; // 迭代器的索引
+  var index = 0 // 迭代器的索引
   return {
     next: function () {
       if (index < array.length) {
-        return { value: array[index++], done: false };
+        return { value: array[index++], done: false }
       } else {
-        return { done: true };
+        return { done: true }
       }
-    },
-  };
+    }
+  }
 }
 ```
 
-- 其实很多的原生 JavaScript 中的字符串、数组、Set、Map 以及 DOM 元素的集合（如 NodeList、HTMLCollection）都实现了 Symbol.iterator 接口，因此它们可以用于构建迭代器，我们可以在控制台输出一个原生对象，比如 array 他的原型属性里面就有一个 Symbol.iterator 迭代器方法，我们可以用这个方法来构造迭代器，从而逐步访问数组中的元素，当然我们可以利用 es6 提供了一个方法叫生成器，generator 来构建一个迭代器 就是 funcutin \* 一个普通的函数，里面通过 yield 来暂停某一行代码，那么会得到一个迭代器，我们可以用 next 来执行这个迭代器
+- 其实很多的原生 JavaScript 中的字符串、数组、Set、Map 以及 DOM 元素的集合（如 NodeList、HTMLCollection）都实现了 Symbol.iterator 接口(迭代器对象)，因此它们可以用于构建迭代器，我们可以在控制台输出一个原生对象，比如 array 他的原型属性里面就有一个 Symbol.iterator 迭代器方法，我们可以用这个方法来构造迭代器，从而逐步访问数组中的元素，当然我们可以利用 es6 提供了一个方法叫生成器，generator 来构建一个迭代器 就是 funcutin \* 一个普通的函数，里面通过 yield 来暂停某一行代码，那么会得到一个迭代器，我们可以用 next 来执行这个迭代器
 
 ```js
-const array = [10, 20, 30];
+const array = [10, 20, 30]
 // 使用 Symbol.iterator 创建迭代器
-const iterator = array[Symbol.iterator]();
-console.log(iterator.next()); // { value: 10, done: false }
-console.log(iterator.next()); // { value: 20, done: false }
-console.log(iterator.next()); // { value: 30, done: false }
-console.log(iterator.next()); // { value: undefined, done: true }
+const iterator = array[Symbol.iterator]()
+console.log(iterator.next()) // { value: 10, done: false }
+console.log(iterator.next()) // { value: 20, done: false }
+console.log(iterator.next()) // { value: 30, done: false }
+console.log(iterator.next()) // { value: undefined, done: true }
 ```
 
 // generator 生成器函数实现迭代器
@@ -80,22 +80,22 @@ Generator 并不是为异步而设计出来的，它还有其他功能（对象�
 const myIterable = {
   values: [1, 2, 3],
   [Symbol.iterator]() {
-    let index = 0;
-    const values = this.values;
+    let index = 0
+    const values = this.values
 
     return {
       next() {
         if (index < values.length) {
-          return { value: values[index++], done: false };
+          return { value: values[index++], done: false }
         } else {
-          return { done: true };
+          return { done: true }
         }
-      },
-    };
-  },
-};
+      }
+    }
+  }
+}
 
 for (const value of myIterable) {
-  console.log(value); // 依次输出 1, 2, 3
+  console.log(value) // 依次输出 1, 2, 3
 }
 ```
