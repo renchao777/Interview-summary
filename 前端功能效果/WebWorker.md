@@ -18,20 +18,20 @@
 
 ```js
 self.onmessage = function (e) {
-  const data = e.data;
+  const data = e.data
   // 执行数据处理逻辑
-  const processedData = processData(data);
+  const processedData = processData(data)
 
   // 返回处理后的数据
-  self.postMessage(processedData);
-};
+  self.postMessage(processedData)
+}
 
 function processData(data) {
   // 模拟数据处理逻辑
   return data.map((item) => ({
     ...item,
-    processedField: item.someField * 2, // 例如双倍某个字段
-  }));
+    processedField: item.someField * 2 // 例如双倍某个字段
+  }))
 }
 ```
 
@@ -42,37 +42,39 @@ export default {
   data() {
     return {
       largeDataSet: [], // 存放原始数据
-      processedData: [], // 存放处理后的数据
-    };
+      processedData: [] // 存放处理后的数据
+    }
   },
   methods: {
     fetchData() {
       // 模拟接口获取数据
-      fetch("/api/your-endpoint")
+      fetch('/api/your-endpoint')
         .then((response) => response.json())
         .then((data) => {
-          this.largeDataSet = data;
-          this.processDataInWorker(data);
-        });
+          this.largeDataSet = data
+          this.processDataInWorker(data)
+        })
     },
     processDataInWorker(data) {
       // 创建 Web Worker 实例
-      const worker = new Worker("path/to/dataWorker.js");
+      const worker = new Worker('path/to/dataWorker.js')
 
+      // 使用结构化克隆，传递数据
+      const clonedData = structuredClone(data, transfer) // 深拷贝数据
       // 将数据传递给 worker
-      worker.postMessage(data);
+      worker.postMessage(clonedData)
 
       // 处理 worker 返回的数据
       worker.onmessage = (e) => {
-        this.processedData = e.data;
-        worker.terminate(); // 处理完毕后终止 worker
-      };
-    },
+        this.processedData = e.data
+        worker.terminate() // 处理完毕后终止 worker
+      }
+    }
   },
   created() {
-    this.fetchData(); // 组件创建时获取数据
-  },
-};
+    this.fetchData() // 组件创建时获取数据
+  }
+}
 ```
 
 3. 组件中渲染处理后的数据
@@ -82,6 +84,10 @@ export default {
     <el-table-column prop="processedField" label="Processed Field"></el-table-column>
   </el-table>
 </template>`
+
+## 使用 webworker 与主线程通信传数据时，会有大量数据，同时数据反复传递的情况会造成消耗，要怎么优化
+
+structuredClone 可以深度克隆对象，而不需要手动处理引用或循环引用。对于复杂数据结构，它可以避免额外的序列化和反序列化开销
 
 ## 优化长列表
 
