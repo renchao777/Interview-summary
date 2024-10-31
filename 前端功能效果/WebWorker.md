@@ -60,7 +60,7 @@ export default {
       const worker = new Worker('path/to/dataWorker.js')
 
       // 使用结构化克隆，传递数据
-      const clonedData = structuredClone(data, transfer) // 深拷贝数据
+      const clonedData = structuredClone(data) // 深拷贝数据
       // 将数据传递给 worker
       worker.postMessage(clonedData)
 
