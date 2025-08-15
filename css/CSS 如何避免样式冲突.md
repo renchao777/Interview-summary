@@ -15,6 +15,22 @@
 
 module css 会对类名进行 hash 化
 
+```js
+{
+  test: /\.module\.css$/,
+  use: [
+    'style-loader',
+    {
+      loader: 'css-loader',
+      options: {
+        modules: {
+          localIdentName: '[name]__[local]___[hash:base64:5]'
+        }
+      }
+    }
+  ]
+}
+```
 3. 增加样式的命名空间
 
 在类名前添加一个命名空间，确保类名的唯一性
