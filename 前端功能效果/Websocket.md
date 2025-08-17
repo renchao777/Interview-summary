@@ -96,10 +96,15 @@ export default {
 
     // 发送心跳消息
     sendHeartbeat() {
-      if (this.websocket?.readyState === WebSocket.OPEN) {
-        this.websocket.send('heartbeat'); // 发送心跳消息
-        setTimeout(this.sendHeartbeat, this.timeout); // 40秒后再次发送
-      }
+      // 清理已有定时器
+      if (this.heartbeatTimer) clearInterval(this.heartbeatTimer);
+
+      this.heartbeatTimer = setInterval(() => {
+        if (this.websocket?.readyState === WebSocket.OPEN) {
+          this.websocket.send('heartbeat');
+          console.log('发送心跳');
+        }
+      }, this.timeout);
     },
 
     // 重新连接 WebSocket
