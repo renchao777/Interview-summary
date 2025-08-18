@@ -29,30 +29,28 @@ class AlleyPromise {
   // 规范中要求then中注册的回调以异步方式执行，保证在resolve执行所有的回调之前，
   // 所有回调已经通过then注册完成
   _resolve(val) {
-    window.addEventListener("message", () => {
-      // 更改成功状态
-      if (this.promiseStatus !== AlleyPromise.PENDING) return;
-      this.promiseStatus = AlleyPromise.FULFILED;
-      this.value = val;
-      let handler;
-      while ((handler = this.resolveQueues.shift())) {
-        handler(this.value);
-      }
-    });
-    window.postMessage("");
+    if (this.promiseStatus !== AlleyPromise.PENDING) return;
+  
+    this.promiseStatus = AlleyPromise.FULFILED;
+    this.value = val;
+  
+    // 遍历回调队列，使用微任务执行
+    while (this.resolveQueues.length) {
+      const handler = this.resolveQueues.shift();
+      queueMicrotask(() => handler(this.value));
+    }
   }
+  
   _reject(val) {
-    window.addEventListener("message", () => {
-      // 更改失败状态
-      if (this.promiseStatus !== AlleyPromise.PENDING) return;
-      this.promiseStatus = AlleyPromise.REJECTED;
-      this.value = val;
-      let handler;
-      while ((handler = this.rejectQueues.shift())) {
-        handler(this.value);
-      }
-    });
-    window.postMessage("");
+    if (this.promiseStatus !== AlleyPromise.PENDING) return;
+  
+    this.promiseStatus = AlleyPromise.REJECTED;
+    this.value = val;
+  
+    while (this.rejectQueues.length) {
+      const handler = this.rejectQueues.shift();
+      queueMicrotask(() => handler(this.value));
+    }
   }
   then(resolveHandler, rejectHandler) {
     return new AlleyPromise((resolve, reject) => {
