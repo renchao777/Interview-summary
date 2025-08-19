@@ -76,9 +76,10 @@ object.defineProperty(childComponentInstance, "message", {
 
 ### 如果强行修改呢 props 中的值呢
 
-1. 子组件直接修改 props 会导致父组件和子组件的数据不一致
+1. 如果 props 是对象/数组，子组件仍然能改内部属性，这就会污染父组件的数据
 
-2. 即使你修改了 props 的值，父组件中的视图可能不会自动更新，因为 Vue 的响应式系统未检测到这些变化
+2. 在 Vue2 里，props 是通过 Object.defineProperty 包装成只读的，外层赋值直接被拦截，Vue 只给你一个警告
+
 
 ```js
 Object.defineProperty(vm, key, {
