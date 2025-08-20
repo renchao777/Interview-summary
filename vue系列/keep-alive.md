@@ -1,8 +1,5 @@
 # keep-alive
 
-**keep-alive 是 Vue 的一个内置组件，主要用于缓存组件实例,从而避免不必要的销毁和重建**
-keep-alive 仅影响组件的生命周期管理和缓存行为
-
 ```js
 {
   tag: "keep-alive", // 表示这是一个 keep-alive 组件
@@ -35,7 +32,9 @@ keep-alive 仅影响组件的生命周期管理和缓存行为
 
 ## 工作原理
 
-keep-alive 是 Vue 提供的一个内置组件，用于缓存动态组件实例。
+*keep-alive 是 Vue 提供的一个内置组件，用于缓存动态组件实例。从而避免不必要的销毁和重建*
+
+keep-alive 仅影响组件的生命周期管理和缓存行为
 **它采用了 LRU（最近最少使用）算法来管理缓存的组件，当组件切换时，会缓存已加载的组件实例，而不是销毁它们，从而提高性能**
 
 1. 初次渲染
@@ -61,6 +60,8 @@ keep-alive 是 Vue 提供的一个内置组件，用于缓存动态组件实例�
 patch 函数：接下来，Vue 使用 patch 函数对比新旧 VNode，通过 diff 算法找出变化的部分。patch 会根据变化更新真实的 DOM，仅更新需要改变的部分，确保 DOM 操作最小化
 
 ### keep-alive 源码
+
+**通过一个 Map 缓存组件实例，每个实例由唯一的 key 标识。渲染时，如果缓存中已有实例，则复用该实例而不重新创建组件。组件被切换隐藏时触发 deactivated，再次显示时触发 activated，从而实现组件状态的保留、避免重复渲染，并提升性能**
 
 ```js
 import { isFunction, isObject } from "shared/util";
@@ -114,7 +115,7 @@ export default defineComponent({
 
   render() {
     const vnode = this.$slots.default[0];
-    const key = this.getKey(vnode.componentOptions);
+    const key = this.getKey(vnode);
 
     if (this.cache.has(key)) {
       return this.cache.get(key).vnode;
