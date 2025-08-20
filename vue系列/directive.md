@@ -4,11 +4,31 @@
 
 ## 实际运用
 
-- v-debounce 防抖指令
-- 适用于短时间内频繁触发事件，确保事件停止后才执行函数。
-- 使用场景 搜索框搜索输入 用户完成最后一次输入完 在发送请求
-- 手机号 邮箱验证输入检测
-- 窗口大小 resize 只需窗口完成调整后 计算窗口大小 防止重复渲染
+- v-permission 按钮级别权限控制
+
+```js
+import router from '@/router'
+import { useAuthStore } from '@/stores/auth'
+
+export default {
+  mounted(el, binding) {
+    const auth = useAuthStore()
+    const routeName = router.currentRoute.value.name
+    const allowed = auth.buttonsByRoute[routeName] || []
+    // 当前用户在 UserList 页的按钮权限
+    // buttonsByRoute['UserList'] = ['add','edit']
+
+    // 判断权限
+    if (!binding.value.some((code: string) => allowed.includes(code))) {
+      el.parentNode && el.parentNode.removeChild(el)
+    }
+  }
+}
+
+<button v-permission="['delete']">删除用户</button>
+<button v-permission="['add','edit']">新增/编辑</button>
+
+```
 
 - v-throttle 节流指令
   1、第一次点击，立即调用方法并禁用按钮，等延迟结束再次激活按钮
