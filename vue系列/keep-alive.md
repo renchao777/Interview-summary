@@ -61,7 +61,7 @@ patch 函数：接下来，Vue 使用 patch 函数对比新旧 VNode，通过 di
 
 ### keep-alive 源码
 
-**通过一个 Map 缓存组件实例，每个实例由唯一的 key 标识。渲染时，如果缓存中已有实例，则复用该实例而不重新创建组件。组件被切换隐藏时触发 deactivated，再次显示时触发 activated，从而实现组件状态的保留、避免重复渲染，并提升性能**
+**通过一个 Map 缓存组件实例，每个实例有唯一的 key 标识。渲染时，如果缓存中已有实例，则复用该实例而不重新创建组件。组件被切换隐藏时触发 deactivated，再次显示时触发 activated，从而实现组件状态的保留、避免重复渲染，并提升性能**
 
 ```js
 import { isFunction, isObject } from "shared/util";
