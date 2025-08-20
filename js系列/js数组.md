@@ -43,3 +43,25 @@ const nestedArray = [1, [2, [3, 4]], 5];
 const flattened = flattenArray(nestedArray);
 console.log(flattened);
 ```
+
+### 数组和map的区别
+
+map
+
+{'a' => 1, 'b' => 2, 3 => '数字键', {…} => '对象键'}
+
+set
+
+{1, 2, 'hello', {…}}
+
+1. 键和索引：数组是通过整数索引访问元素，Map 可以用任意类型的键访问值，而 Set 没有键，只有值。
+
+2. 唯一性：数组可以有重复元素，Map 的键唯一但值可以重复，Set 中的值是唯一的，重复值会被自动去重。
+
+3. 顺序：三者都保持插入顺序，但数组按索引，Map 和 Set 按插入顺序遍历。
+
+4. 访问和查找效率：数组按索引访问是 O(1)，查找值是 O(n)，Map 和 Set 按键或按值查找平均是 O(1)。
+
+5. 操作方法：数组用 push 添加、splice 删除，Map 用 set 添加、delete 删除，Set 用 add 添加、delete 删除。
+
+6. 获取大小：数组用 .length，Map 和 Set 用 .size
