@@ -2,7 +2,7 @@
 
 **在 Vue.js 中，computed 属性（计算属性）是一种根据响应式依赖自动计算其值的属性。计算属性的核心原理包括依赖追踪、懒执行、缓存机制、Watcher 机制**
 
-**Vue 的计算属性本质上是通过 Object.defineProperty 给实例定义一个 getter，内部依赖一个 lazy watcher。这个 watcher 初始是 dirty = true，第一次访问时才会执行 getter 并缓存结果。当依赖的数据变化时，不会立即重新计算，而是把 watcher 标记为 dirty，下次访问时才会重新求值。这种“惰性 + 缓存”的机制，可以减少性能开销**
+**Vue 的计算属性通过 Object.defineProperty 定义 getter。在初始化时，Vue 会通过 initComputed 为每个计算属性 创建一个 lazy watcher（new Watcher），初始 dirty = true。第一次访问时才执行计算并缓存结果。依赖变化时，只标记 dirty，下次访问才重新求值，实现了 惰性计算 + 缓存，提升性能**
 ```js
 computed: {
    xxx () {
