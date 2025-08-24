@@ -90,6 +90,7 @@ body {
   .w(100px);
   .h(150px);
 }
+Less 的 mixin + 默认参数特性，让 CSS 更像函数调用，避免重复手写
 ```
 - acss 层 定义原子类 如 margin padding flex
 
