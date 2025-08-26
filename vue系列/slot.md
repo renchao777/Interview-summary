@@ -12,13 +12,12 @@
 
 ```js
 {
-  tag: 'my',
+  tag: 'my-component',
   componentOptions: {
-    children: [
-      {
-        tag: 'div',
-        text: 'hello'
-      }
+    Ctor: MyComponent, // 子组件构造函数
+    propsData: {}, 
+    children: [ // 父组件传给子组件的插槽内容
+      { tag: 'div', text: 'hello' }
     ]
   }
 }
@@ -37,11 +36,11 @@
 
 2. 具名插槽 多了个名字
    <my-component>
-   <template v-slot:header>
-   <h1>Header Content</h1>
-   </template>
+      <template v-slot:header>
+          <h1>Header Content</h1>
+      </template>
       <template v-slot:footer>
-   <h1>Footer Content</h1>
+          <h1>Footer Content</h1>
       </template>
    </my-component>
 
