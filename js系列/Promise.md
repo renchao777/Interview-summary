@@ -42,3 +42,8 @@ Rejected（已失败）：异步操作失败，返回了一个错误
    then() 和 catch() 方法都会返回一个新的 Promise。这意味着我们可以链式调用 then() 和 catch()，而且每个 then() 和 catch() 的返回值都将被传递到下一个 then() 中
 
    每次调用 then() 或 catch() 时，内部会收集成功和失败的回调，并将它们放入微任务队列中。这使得 Promise 链可以灵活处理多个异步操作的结果
+
+
+## js中的微任务
+
+Promise.then/catch/finally、MutationObserver、queueMicrotask
