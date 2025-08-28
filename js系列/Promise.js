@@ -92,30 +92,30 @@ class AlleyPromise {
   catch(rejectHandler) {
     return this.then(undefined, rejectHandler);
   }
-  static all(iterator) {
-    let len = iterator.length;
+  static all(iterable) {
+    const promises = Array.from(iterable);
+    const len = promises.length;
     let n = 0;
-    let vals = [];
+    const results = new Array(len);
+  
     return new AlleyPromise((resolve, reject) => {
-      iterator.forEach((item) => {
-        item
-          .then((val) => {
-            ++n;
-            vals.push(val);
-            if (len === n) {
-              resolve(vals);
-            }
+      if (len === 0) return resolve([]);
+  
+      promises.forEach((item, index) => {
+        AlleyPromise.resolve(item)
+          .then(val => {
+            results[index] = val;
+            n++;
+            if (n === len) resolve(results);
           })
-          .catch((e) => {
-            reject(e);
-          });
-      });
-    });
+          .catch(reject)
+      })
+    })
   }
   static race(iterator) {
     return new AlleyPromise((resolve, reject) => {
       iterator.forEach((item) => {
-        item
+        AlleyPromise.resolve(item)
           .then((val) => {
             resolve(val);
           })
