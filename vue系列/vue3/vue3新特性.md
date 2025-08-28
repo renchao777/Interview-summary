@@ -20,6 +20,8 @@
   把之前 vue.Prototype 上的属性方法，作为 this 私有的属性方法
   vue3 也提供了几乎完全不同于 vue2 的语法[推荐]
   - 基于 composition API（聚合式 API） 替代 options API（配置项 API） 所有代码都写在<script setup>脚本中
+  逻辑集中 —— 相同功能的代码写在一起，不分散
+  易复用 —— 封装成函数（Composable），比 mixin 清晰
   - 全面采用函数式编程，需要实现什么样的效果都从 vue 中解构出来 例如：
     ref、reactive、computed、watch、watchEffect、provide/inject
   - 重新定义钩子函数: onBeforeMount/onMount/onBeforeUpdate/onUpdate/onBeforeUnmount/onUnmount
