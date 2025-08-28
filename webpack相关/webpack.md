@@ -1,4 +1,5 @@
 # webpack 相关
+**Webpack 是一个前端模块打包和构建工具，把各种资源打包成浏览器可运行文件，并通过 loader、插件、热更新和 Tree Shaking 等功能优化开发和性能**
 
 ## webpack 构建流程
 
