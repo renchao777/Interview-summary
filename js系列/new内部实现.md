@@ -1,6 +1,6 @@
 # new 内部实现
 
-**new 内部做三件事：创建新对象并继承构造函数原型，调用构造函数绑定 this，返回新对象**
+**new 内部做三件事：通过创建Object.create新对象并继承构造函数原型，调用构造函数绑定 this，返回新对象**
 
 ```js
 function myNew(Constructor, ...args) {
