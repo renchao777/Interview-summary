@@ -22,6 +22,10 @@
 
 1. 自动重连机制： 当连接断开时，自动进行重连尝试，并且可以逐步增加重连间隔时间，以减少对服务器的冲击
 
+## 什么时候重连,重连是怎么实现的
+
+连接关闭,连接错误,长时间收不到服务器响应，说明连接“假死”
+
 <script>
 export default {
   data() {
@@ -103,6 +107,13 @@ export default {
         if (this.websocket?.readyState === WebSocket.OPEN) {
           this.websocket.send('heartbeat');
           console.log('发送心跳');
+
+          // 如果需要，可以加一个超时重连检测
+          if (this.heartbeatTimeout) clearTimeout(this.heartbeatTimeout);
+          this.heartbeatTimeout = setTimeout(() => {
+            console.warn('心跳超时，准备重连');
+            this.websocket.close(); // 触发 onclose -> 重连
+          }, 5000); // 5秒没收到pong就认为掉线
         }
       }, this.timeout);
     },
