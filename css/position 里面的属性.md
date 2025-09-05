@@ -10,9 +10,9 @@
 
 ## 可选值如下
 
-1. static 默认值）没有定位，元素出现在正常流中（忽略 left,top,right,bottom 或者 z-index 声明）
+1. static (默认值) 没有定位，元素出现在正常流中（忽略 left,top,right,bottom 或者 z-index 声明）
 
-2. relative 定位（相对定位）position：relative
+2. relative 定位 (相对定位) position：relative
 
 **相对本元素的左上角进行定位**，top，left，bottom，right 都可以有值。虽然经过定位后，位置可能会移动，
 **但是本元素并没有脱离文档流**，还占有原来的页面空间。可以设置 z-index。使本元素相对于文档流中的元素，
