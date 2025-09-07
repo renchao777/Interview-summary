@@ -13,6 +13,7 @@ const vnode = {
     {
       tag: "ChildComponent", // 子组件的虚拟节点
       componentOptions: {
+        props: {},
         Ctor: MyComponentConstructor, // 组件的构造函数
       },
     },
