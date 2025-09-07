@@ -104,6 +104,8 @@ vue-virtual-scroll-list
 
 - 检测滚动到底部
 
+当滚动条位置加上可视区高度，大于内容总高度，就认为快到底了，需要加载更多内容或做相应处理
+
 ```js
 onScroll() {
   const { scrollTop, scrollHeight, clientHeight } = this.$refs.viewport;
