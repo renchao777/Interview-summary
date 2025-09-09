@@ -30,8 +30,8 @@ body {
   font-family: 'Helvetica', sans-serif;
 }
 ```
-- base 层 整个 css 结构最基础的层级-通用的一些css比如通用页面结构
-- tool 层，提供工具类函数
+- base 层, 存放通用页面结构的css
+- tool 层, 提供工具类函数
 间距工具（Margin / Padding）
 ```cs
 /* Margin */
