@@ -1,6 +1,6 @@
 # 无感知Token刷新机制
 
-**前端用短期 Access Token（存 localStorage）请求接口，长期 Refresh Token 存在 HTTP-only Cookie，前端无法直接读取,防止xss跨站脚本攻击，但通过 withCredentials: true 发请求时浏览器会自动携带,同时设置SameSite=Lax/Strict（防止跨站请求携带）,同时前端在请求头携带随机生成的 CSRF Token。Access Token 过期时，调用刷新接口获取新 Token，多请求同时刷新会排队保证只刷新一次，刷新失败则清空 Token 并跳登录页，既安全又支持并发处理**
+**前端用短期 Access Token（存 Vuex）请求接口，长期 Refresh Token 存在 HTTP-only Cookie，前端无法直接读取,防止xss跨站脚本攻击，但通过 withCredentials: true 发请求时浏览器会自动携带,同时设置SameSite=Lax/Strict（防止跨站请求携带）,同时前端在请求头携带随机生成的 CSRF Token。Access Token 过期时，调用刷新接口获取新 Token，多请求同时刷新会排队保证只刷新一次，刷新失败则清空 Token 并跳登录页，既安全又支持并发处理**
 当多个请求同时过期时，第一个请求会获得刷新锁，去调用刷新接口获取新 Token。其他同时过期的请求检测到锁已被占用，就会进入等待队列，等刷新完成后再用新 Token 重试。这样保证同一时间只刷新一次，避免重复刷新，同时所有请求都能正确处理
 ```js
 const axiosInstance = axios.create({
