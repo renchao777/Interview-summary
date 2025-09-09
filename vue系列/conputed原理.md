@@ -1,6 +1,6 @@
 # computed 原理
 
-**在 Vue 中，计算属性通过 Object.defineProperty 转换成访问时才会计算的属性. 在初始化时，Vue 会通过 initComputed 为每个计算属性 创建一个 lazy watcher（new Watcher），初始 dirty = true。第一次访问时才执行计算并缓存结果。依赖变化时，只标记 dirty，下次访问才重新求值**
+**在 Vue 中，计算属性通过 Object.defineProperty 转换成访问时才会计算的属性. 在初始化时，Vue 会通过 initComputed 为每个计算属性 创建一个 lazy watcher（new Watcher），初始 dirty = true. 第一次访问时才执行计算并缓存结果. 依赖变化时，只标记 dirty，下次访问才重新求值**
 ```js
 computed: {
    xxx () {

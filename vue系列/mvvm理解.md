@@ -13,9 +13,5 @@ MVVM 是一种前端设计模式，它将应用程序分为三个部分：模型
 
 ## Vue 2 中的 MVVM 实现的不同点
 
-1. Vue 组件融合了 View 和 ViewModel 的职责： 在 Vue 2 中，组件既负责处理数据（Model），又负责控制视图（View）。Vue 组件同时扮演了 View 和 ViewModel 的角色，因此并没有传统 MVVM 中那种完全独立的 ViewModel 层
-
-2. 在 Vue 中，ViewModel 职责通过 Vue 的响应式系统、数据绑定机制以及组件生命周期方法来完成，减少了 View 和 Model 之间的手动同步过程。因此，Vue 更像是一个数据驱动的 UI 框架，而不是真正严格意义上的 MVVM 实现
-
-3. Vue 的响应式系统使得数据变化时可以自动更新视图（View），这种自动更新的特性让人感觉它实现了 MVVM。
+ Vue 的响应式系统使得数据变化时可以自动更新视图（View），这种自动更新的特性让人感觉它实现了 MVVM。
    但严格来说，它只是通过数据劫持（Object.defineProperty）来监听数据的变化，并触发视图的重新渲染，并没有提供一个独立的 ViewModel 层
