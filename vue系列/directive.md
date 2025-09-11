@@ -4,7 +4,7 @@
 
 ## 实际运用
 
-- v-permission 按钮级别权限控制
+- v-permission 通过路由获取当前页面的权限点, 然后用自定义指令 v-permission 对按钮进行动态过滤
 
 ```js
 import router from '@/router'
