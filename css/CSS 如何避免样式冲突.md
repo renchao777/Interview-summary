@@ -2,7 +2,7 @@
 
 1. css Scoped
 
-在 Vue 单文件组件中，通过在 <style> 标签上添加 scoped 属性，Vue 会为每个 CSS 规则生成唯一的属性选择器，确保样式只作用于当前组件内的元素
+Vue 在 <style scoped> 下，会为组件生成一个唯一的 scopeId，并在模板元素和对应的 CSS 选择器上都附加这个 scopeId，从而保证样式只作用于当前组件
 
 ```cs
 .component[data-v-123456] {
