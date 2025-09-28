@@ -13,7 +13,7 @@ a:hover {
 input:focus {
     border-color: green;
 }
-button:active {
+button:active { // 元素正被用户激活
     background-color: red;
 }
 ```

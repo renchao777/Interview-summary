@@ -22,5 +22,4 @@
 
 继承特性主要涉及以下几个方面：
 文本相关属性：如 font-family, font-size, color, line-height, text-align
-列表样式属性：如 list-style
 对于盒模型相关属性（如 margin, padding, border），确实没有继承特性
