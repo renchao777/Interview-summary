@@ -2,14 +2,6 @@
 
 **Promise 是 JavaScript 中用于处理异步操作的一种机制。它可以让我们更加优雅地管理异步任务，而不用依赖传统的回调函数**
 
-Promise 有三种状态
-
-Pending（待定）：表示 Promise 尚未完成
-Fulfilled（已完成）：异步操作成功，返回了一个值
-Rejected（已失败）：异步操作失败，返回了一个错误
-
-状态一旦改变，就不可再变（即从 Pending 转换为 Fulfilled 或 Rejected 后就不会再改变）
-
 ## Promise 解决了什么问题
 
 回调地狱：当多个异步操作嵌套时，回调函数会变得层层嵌套，导致代码难以维护，称为“回调地狱”
@@ -24,7 +16,6 @@ Rejected（已失败）：异步操作失败，返回了一个错误
 
 1. 在创建一个 Promise 实例时，我们传入一个执行器函数（executor），该函数会立即执行，并接受两个参数：resolve 和 reject。这两个参数都是函数，分别用于处理成功和失败的结果
 
-   状态转换：
    当异步操作成功时，调用 resolve(value)，Promise 的状态从 Pending 转为 Fulfilled。
    当异步操作失败时，调用 reject(error)，Promise 的状态从 Pending 转为 Rejected。
 
