@@ -1,4 +1,4 @@
-# computed 和 watch 区别
+ # computed 和 watch 区别
 
 ## 相同点：
 
