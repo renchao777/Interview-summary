@@ -1,6 +1,6 @@
 # js 数组方法
 
-1.  reduce
+1.  reduce 不改变原数组,有返回值
 
     array.reduce(callback(accumulator, currentValue)[, initialValue])
     callback: 必需。一个函数，接收以下参数：
@@ -42,6 +42,18 @@ const flattenArray = (arr) => {
 const nestedArray = [1, [2, [3, 4]], 5];
 const flattened = flattenArray(nestedArray);
 console.log(flattened);
+```
+
+2. filter 不会改变原数组, 有返回值
+
+```js
+const users = [
+  { name: '哥', active: true },
+  { name: '幻方', active: false },
+  { name: '程序员', active: true }
+]
+
+const activeUsers = users.filter(user => user.active)
 ```
 
 ### 数组和map的区别

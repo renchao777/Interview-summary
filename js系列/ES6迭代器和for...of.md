@@ -99,3 +99,11 @@ for (const value of myIterable) {
   console.log(value) // 依次输出 1, 2, 3
 }
 ```
+
+## for in 是遍历对象的
+
+```js
+for (let key in object) {
+  // 在这里使用 key 或 object[key]
+}
+```
