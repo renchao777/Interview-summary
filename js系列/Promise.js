@@ -20,10 +20,10 @@ class AlleyPromise {
     this.resolveQueues = [];
     this.rejectQueues = [];
 
-    //定义初始值
-    this.value;
+    // 发布-订阅 abort 相关
+    this.aborted = false;
+    this.abortSubscribers = [];
 
-    //调用callback函数
     callback(this._resolve.bind(this), this._reject.bind(this));
   }
   // 规范中要求then中注册的回调以异步方式执行，保证在resolve执行所有的回调之前，
@@ -112,6 +112,7 @@ class AlleyPromise {
       })
     })
   }
+  // 谁先 完成（resolve/reject），整个 race 的结果就是谁
   static race(iterator) {
     return new AlleyPromise((resolve, reject) => {
       iterator.forEach((item) => {
@@ -134,6 +135,51 @@ class AlleyPromise {
     return new AlleyPromise((resolve, reject) => {
       reject(val);
     });
+  }
+  // 利用race实现abort方法-超时、网络请求中止、先到先得
+  abort(reason = "Aborted") {
+    let abortReject;
+  
+    // 一个新的 promise，用来“等着被中止”
+    const abortPromise = new AlleyPromise((_, reject) => {
+      abortReject = reject; // 先存起来，方便后面调用
+    });
+  
+    // 比赛：原任务 vs 中止信号
+    const raced = AlleyPromise.race([this, abortPromise]);
+  
+    // 给返回的 promise 加一个 abort() 方法
+    raced.abort = (msg = reason) => {
+      abortReject(msg); // 让中止信号失败 → 整个 race 立刻失败
+    };
+  
+    return raced; // 返回这个带 abort 功能的 promise
+  }
+  // 创建一个额外的 abortPromise，
+  // 这个 promise 永远 pending，直到我手动调用它的 reject。
+  // 然后用 Promise.race 让原任务和 abortPromise 竞争。
+  // 谁先结束，整个 race 的结果就是谁
+
+  // 发布订阅实现
+  abort(arg) {
+    if (!this._abortSubscribers) this._abortSubscribers = [];
+  
+    if (typeof arg === "function") {
+      // 注册 abort 回调
+      this._abortSubscribers.push(arg);
+    } else {
+      // 调用 abort
+      if (this.aborted) return;
+      this.aborted = true;
+  
+      const reason = arg !== undefined ? arg : "Aborted";
+  
+      // 执行所有注册的回调
+      this._abortSubscribers.forEach(fn => fn(reason));
+  
+      // 立即触发 reject 队列
+      this.rejectQueues.forEach(fn => fn(reason));
+    }
   }
 }
 
